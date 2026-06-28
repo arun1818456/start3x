@@ -23,6 +23,7 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
       builder: (controller) => Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         appBar: AppBar(
+          leading: SizedBox(),
           centerTitle: true,
           title: const Text(
             'Invoice Generator',
@@ -331,46 +332,31 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: Container(
-                      height: 45,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Row(
+                    flex: 2,
+                    child: MyTextFieldForm(
+                      hintText: 'Quantity',
+                      controller: controller.itemNameController,
+                      suffixIcon: Column(
                         children: [
-                          const Text(
-                            'Quantity',
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          InkWell(
+                            onTap: () =>
+                                setState(() => controller.quantity++),
+                            child: const Icon(
+                              Icons.keyboard_arrow_up,
+                              size: 18,
+                            ),
                           ),
-                          const Spacer(),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () =>
-                                    setState(() => controller.quantity++),
-                                child: const Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 18,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () => setState(
-                                  () => controller.quantity > 1
-                                      ? controller.quantity--
-                                      : null,
-                                ),
-                                child: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 8),
-                          const Text('+', style: TextStyle(color: Colors.grey)),
+                          InkWell(
+                            onTap: () => setState(
+                              () => controller.quantity > 1
+                                  ? controller.quantity--
+                                  : null,
+                            ),
+                            child: const Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 18,
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -378,25 +364,11 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
                 ],
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextFieldForm(
-                      hintText: 'Amount Due (Optional)',
-                      controller: controller.amountDueOptionalController,
-                      prefixIcon: Icon(Icons.currency_rupee,size: 18,),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Switch(
-                    value: controller.isAmountDueEnabled,
-                    onChanged: (val) =>
-                        setState(() => controller.isAmountDueEnabled = val),
-                    activeTrackColor: Colors.orange.withAlpha(120),
-                    activeThumbColor: Colors.orange,
-                  ),
-                ],
-              ),
+            MyTextFieldForm(
+              hintText: 'Amount Due (Optional)',
+              controller: controller.amountDueOptionalController,
+              prefixIcon: Icon(Icons.currency_rupee,size: 18,),
+            ),
               const SizedBox(height: 12),
               ElevatedButton.icon(
                 onPressed: () async {
