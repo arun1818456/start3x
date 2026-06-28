@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:start3x/app/constant/app_fonts.dart';
 import 'package:start3x/app/constant/assets_images.dart';
@@ -26,64 +25,67 @@ class HomePage extends StatelessWidget {
                 height: 0,
                 thickness: 0.2,
               ),
-              Stack(
-                children: [
-                  Column(
-                    children: [
-                      _buildHeroSection(controller),
-                      // // Get Cards Section
-                      _buildCardSection(context),
-                    ],
-                  ),
-                  callBackForm(),
-                ],
-              ),
 
-              Stack(
-                children: [
-                  Column(
-                    children: [
-                      // Pricing Section
-                      _buildPricingSection(context),
-                      // // Partner Section
-                      _buildPartnerSection(context),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 150,left: 50,right: 50),
-                    child: Row(
+              if(controller.selectedTab == "Home")...[
+                Stack(
+                  children: [
+                    Column(
                       children: [
-                        _buildPricingCard(
-                          plan: 'Essential',
-                          priceA: '₹20,000',
-                          priceB: ' (Rupees only)',
-                          pLow: "14 visit done",
-                          period: '15 days',
-                          marginTop: 150,
-                        ),
-                        const SizedBox(width: 32),
-                        _buildPricingCard(
-                          plan: 'Professional',
-                          pLow: "23 visit done",
-                          priceA: '₹30,000 ',
-                          priceB: '(Rupees only)',
-                          period: '25 days',
-                        ),
-                        const SizedBox(width: 32),
-                        _buildPricingCard(
-                          plan: 'Enterprise',
-                          pLow: "for 30 appointments.",
-                          priceA: '₹1200 ',
-                          priceB: '- per visit done',
-                          period: 'within preferred time',
-                          marginTop: 150,
-                        ),
+                        _buildHeroSection(controller),
+                        // // Get Cards Section
+                        _buildCardSection(context),
                       ],
                     ),
-                  ),
-                ],
-              ),
-
+                    callBackForm(),
+                  ],
+                ),
+                Stack(
+                  children: [
+                    Column(
+                      children: [
+                        // Pricing Section
+                        _buildPricingSection(context),
+                        // // Partner Section
+                        _buildPartnerSection(context),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 150,left: 50,right: 50),
+                      child: Row(
+                        children: [
+                          _buildPricingCard(
+                            plan: 'Essential',
+                            priceA: '₹20,000',
+                            priceB: ' (Rupees only)',
+                            pLow: "14 visit done",
+                            period: '15 days',
+                            marginTop: 150,
+                          ),
+                          const SizedBox(width: 32),
+                          _buildPricingCard(
+                            plan: 'Professional',
+                            pLow: "23 visit done",
+                            priceA: '₹30,000 ',
+                            priceB: '(Rupees only)',
+                            period: '25 days',
+                          ),
+                          const SizedBox(width: 32),
+                          _buildPricingCard(
+                            plan: 'Enterprise',
+                            pLow: "for 30 appointments.",
+                            priceA: '₹1200 ',
+                            priceB: '- per visit done',
+                            period: 'within preferred time',
+                            marginTop: 150,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ] else...[
+                _buildDashBoard(),
+              ],
               // // Footer
               _buildFooter(context),
             ],
@@ -513,6 +515,7 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Divider(color: Colors.grey[700],thickness: 0.3,height: 35,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -737,6 +740,84 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDashBoard() {
+    return Container(
+      width: double.infinity,
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 70),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'Dashboard',
+            style: TextStyle(
+              color: AppColors.appColorOrange,
+              fontFamily: AppFonts.inter,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Features that help you manage data with \nclarity and confidence.',
+            style: TextStyle(fontSize: 18, color: AppColors.greyDarkColor),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildDashCard(
+                icon: AppImages.contract,
+                description:
+                'Personal Information',
+              ),
+              _buildDashCard(
+                icon: AppImages.resume,
+                description:
+                'Create Invoices & Contracts',
+              ),
+              _buildDashCard(
+                icon: AppImages.solutions,
+                description:
+                'Manage Prospects & Appointments',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDashCard({
+    required String icon,
+    required String description,
+  }) {
+    return Container(
+      height: Get.height * 0.35,
+      width: Get.height * 0.35,
+      decoration: BoxDecoration(
+        color: AppColors.grey4Color,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(icon, width: 80, height: 80),
+          const SizedBox(height: 16),
+          Text(
+            description,
+            style: const TextStyle(
+              fontSize: 16,
+              color: AppColors.appColorOrange,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
