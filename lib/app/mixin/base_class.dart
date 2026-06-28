@@ -133,6 +133,9 @@ mixin BaseClass {
       FocusManager.instance.primaryFocus!.unfocus();
     }
   }
+  double getScreenWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
   //
   // void showMySnackBar(
   //   String message, {

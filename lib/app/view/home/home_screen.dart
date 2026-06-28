@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
 import 'package:start3x/app/constant/app_fonts.dart';
 import 'package:start3x/app/constant/assets_images.dart';
+import 'package:start3x/app/routes/routes.dart';
 import 'package:start3x/app/view/home/home_screen_controller.dart';
 import 'package:start3x/app/widgets/button.dart';
+import 'package:start3x/app/widgets/footer_widget.dart';
+import 'package:start3x/app/widgets/logo_text_widget.dart';
 import 'package:start3x/app/widgets/text_field.dart';
 
 import '../../../exports.dart';
@@ -86,8 +89,9 @@ class HomePage extends StatelessWidget {
               ] else...[
                 _buildDashBoard(),
               ],
-              // // Footer
-              _buildFooter(context),
+              // Footer
+              FooterWidget(),
+
             ],
           ),
         ),
@@ -103,49 +107,7 @@ class HomePage extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 100, vertical: 10),
       child: Row(
         children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: const Color(0xFFFF6B35),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Center(
-              child: Text(
-                'S3',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  fontFamily: AppFonts.inter,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Start',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: AppColors.greyDarkColor,
-                    fontFamily: AppFonts.inter,
-                  ),
-                ),
-                TextSpan(
-                  text: '3x',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.appColorOrange,
-                    fontFamily: AppFonts.inter,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          LogoTextWidget(),
           Spacer(),
           textButton(controller, text: "Home"),
           SizedBox(width: 25),
@@ -507,154 +469,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildFooter(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Divider(color: Colors.grey[700],thickness: 0.3,height: 35,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: AppColors.appColorOrange,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'S3',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Start',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: AppColors.greyDarkColor,
-                                fontFamily: AppFonts.inter,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '3x',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.appColorOrange,
-                                fontFamily: AppFonts.inter,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Reduce your effort, get direct client visits,\n'
-                    'and work smoothly with full clarity and zero\n'
-                    'stress.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      height: 1.6,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildFooterColumn('Product', [
-                    'Home',
-                    'About',
-                    'Pricing',
-                    'Plans',
-                  ]),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildFooterColumn('Company', [
-                    'About',
-                    'Contact',
-                    'Blog',
-                    'Careers',
-                  ]),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildFooterColumn('Legal', [
-                    'Privacy Policy',
-                    'Terms & Conditions',
-                    'Cookie Policy',
-                  ]),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 40),
-          Divider(color: Colors.grey[700]),
-          const SizedBox(height: 20),
-          const Text(
-            '© 2026 Start3x. All rights reserved. GSTIN: 18EKHPM0377M1ZL',
-            style: TextStyle(fontSize: 14, color: AppColors.greyDarkColor),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFooterColumn(String title, List<String> items) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: AppColors.greyDarkColor,
-          ),
-        ),
-        const SizedBox(height: 16),
-        ...items.map((item) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              item,
-              style: const TextStyle(
-                fontSize: 14,
-                color: AppColors.greyDarkColor,
-              ),
-            ),
-          );
-        }),
-      ],
-    );
-  }
-
   Widget textButton(HomeScreenController controller, {required String text}) {
     Color color = controller.selectedTab == text
         ? AppColors.appColorOrange
@@ -770,16 +584,23 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildDashCard(
-                icon: AppImages.contract,
+                onTap: (){
+                  Get.toNamed(AppRoutes.profileScreen);
+                },
+                icon: AppImages.resume,
                 description:
                 'Personal Information',
               ),
               _buildDashCard(
-                icon: AppImages.resume,
+                onTap: (){
+                  Get.toNamed(AppRoutes.invoice);
+                },
+                icon: AppImages.contract,
                 description:
                 'Create Invoices & Contracts',
               ),
               _buildDashCard(
+                onTap: (){},
                 icon: AppImages.solutions,
                 description:
                 'Manage Prospects & Appointments',
@@ -792,32 +613,37 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildDashCard({
+    required GestureTapCallback onTap,
     required String icon,
     required String description,
   }) {
-    return Container(
-      height: Get.height * 0.35,
-      width: Get.height * 0.35,
-      decoration: BoxDecoration(
-        color: AppColors.grey4Color,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(icon, width: 80, height: 80),
-          const SizedBox(height: 16),
-          Text(
-            description,
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.appColorOrange,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: Get.height * 0.35,
+        width: Get.height * 0.35,
+        decoration: BoxDecoration(
+          color: AppColors.grey4Color,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[200]!),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(icon, width: 80, height: 80),
+            const SizedBox(height: 16),
+            Text(
+              description,
+              style: const TextStyle(
+                fontSize: 16,
+                color: AppColors.appColorOrange,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
