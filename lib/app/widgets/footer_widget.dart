@@ -1,6 +1,5 @@
 
 import '../../exports.dart';
-import 'logo_text_widget.dart';
 
 class FooterWidget extends StatelessWidget {
   const FooterWidget({super.key});

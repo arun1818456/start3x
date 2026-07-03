@@ -1,14 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:start3x/app/constant/app_fonts.dart';
-import 'package:start3x/app/constant/colors.dart';
-import 'package:start3x/app/view/profile/profile_controller.dart';
-import 'package:start3x/app/widgets/button.dart';
-import 'package:start3x/app/widgets/logo_text_widget.dart';
-import 'package:start3x/app/widgets/profile_name_widget.dart';
-
-import '../../widgets/footer_widget.dart';
-import '../../widgets/text_field.dart';
+import '../../../exports.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

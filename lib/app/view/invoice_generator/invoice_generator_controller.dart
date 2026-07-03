@@ -51,7 +51,7 @@ class InvoiceGeneratorController extends GetxController {
     final pdf = pw.Document();
 
     // Helper to handle empty strings
-    String _f(String? text) => (text == null || text.trim().isEmpty) ? '---' : text;
+    String f(String? text) => (text == null || text.trim().isEmpty) ? '---' : text;
 
     pdf.addPage(
       pw.Page(
@@ -69,8 +69,8 @@ class InvoiceGeneratorController extends GetxController {
                     pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.end,
                       children: [
-                        pw.Text('Invoice No: ${_f( invoiceNoController.text)}'),
-                        pw.Text('Date: ${_f( dateController.text)}'),
+                        pw.Text('Invoice No: ${f( invoiceNoController.text)}'),
+                        pw.Text('Date: ${f( dateController.text)}'),
                       ],
                     ),
                   ],
@@ -85,12 +85,12 @@ class InvoiceGeneratorController extends GetxController {
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text('FROM:', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                        pw.Text(_f(companyNameController.text)),
-                        pw.Text(_f(phoneController.text)),
-                        pw.Text('GSTIN: ${_f(gstinController.text)}'),
-                        pw.Text(_f(addressController.text)),
-                        pw.Text('${_f(cityController.text)}, ${_f(zipController.text)}'),
-                        pw.Text(_f(emailController.text)),
+                        pw.Text(f(companyNameController.text)),
+                        pw.Text(f(phoneController.text)),
+                        pw.Text('GSTIN: ${f(gstinController.text)}'),
+                        pw.Text(f(addressController.text)),
+                        pw.Text('${f(cityController.text)}, ${f(zipController.text)}'),
+                        pw.Text(f(emailController.text)),
                       ],
                     ),
                   ),
@@ -100,11 +100,11 @@ class InvoiceGeneratorController extends GetxController {
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text('BILL TO:', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                        pw.Text(_f(billToNameController.text)),
-                        pw.Text('GSTIN: ${_f(billToGstinController.text)}'),
-                        pw.Text(_f(billToAddressController.text)),
-                        pw.Text('${_f(billToCityController.text)}, ${_f(billToZipController.text)}'),
-                        pw.Text(_f(billToEmailController.text)),
+                        pw.Text(f(billToNameController.text)),
+                        pw.Text('GSTIN: ${f(billToGstinController.text)}'),
+                        pw.Text(f(billToAddressController.text)),
+                        pw.Text('${f(billToCityController.text)}, ${f(billToZipController.text)}'),
+                        pw.Text(f(billToEmailController.text)),
                       ],
                     ),
                   ),
@@ -115,7 +115,7 @@ class InvoiceGeneratorController extends GetxController {
                 headers: ['Item Description', 'Quantity', 'Price', 'Total'],
                 data: [
                   [
-                    _f( itemNameController.text),
+                    f( itemNameController.text),
                     quantity.toString(),
                     'Rs. ${ priceController.text.isEmpty ? '0' :  priceController.text}',
                     'Rs. $subtotal.toStringAsFixed(2)}'
@@ -153,10 +153,10 @@ class InvoiceGeneratorController extends GetxController {
               pw.SizedBox(height: 40),
               pw.Divider(color: PdfColors.grey300),
               pw.Text('Payment Instructions:', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-              pw.Text('Bank: ${_f(bankNameController.text)}'),
-              pw.Text('A/C No: ${_f(accountNoController.text)}'),
-              pw.Text('Name: ${_f(holderNameController.text)}'),
-              pw.Text('IFSC: ${_f(ifscController.text)}'),
+              pw.Text('Bank: ${f(bankNameController.text)}'),
+              pw.Text('A/C No: ${f(accountNoController.text)}'),
+              pw.Text('Name: ${f(holderNameController.text)}'),
+              pw.Text('IFSC: ${f(ifscController.text)}'),
               pw.Spacer(),
               pw.Center(
                 child: pw.Text('Thank you for your business!', style: pw.TextStyle(fontStyle: pw.FontStyle.italic, color: PdfColors.grey700)),

@@ -1,6 +1,4 @@
-
 import '../../exports.dart';
-import '../constant/app_fonts.dart';
 
 class ProfileNameWidget extends StatelessWidget {
   const ProfileNameWidget({super.key});
@@ -9,13 +7,15 @@ class ProfileNameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text("Arun Mehra",style: TextStyle(
-          fontFamily: AppFonts.inter,
-          fontSize: 16,
-          color: AppColors.greyDarkColor,
+        Text(
+          "Arun Mehra",
+          style: TextStyle(
+            fontFamily: AppFonts.inter,
+            fontSize: 16,
+            color: AppColors.greyDarkColor,
+          ),
         ),
-        ),
-        SizedBox(width: 10,),
+        SizedBox(width: 10),
         Container(
           width: 32,
           height: 32,
@@ -24,8 +24,8 @@ class ProfileNameWidget extends StatelessWidget {
             color: const Color(0xFFFF6B35),
             shape: BoxShape.circle,
           ),
-          child: Text("A",style: TextStyle(color: Colors.white),),
-        )
+          child: Text("A", style: TextStyle(color: Colors.white)),
+        ),
       ],
     );
   }

@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:start3x/app/constant/app_fonts.dart';
-import 'package:start3x/app/constant/assets_images.dart';
-import 'package:start3x/app/constant/colors.dart';
-import 'package:start3x/app/view/invoice_generator/invoice_generator_controller.dart';
-import 'package:start3x/app/widgets/text_field.dart';
 
-import '../../widgets/button.dart';
+
+
+import '../../../exports.dart';
 
 class InvoiceGenerator extends StatefulWidget {
   const InvoiceGenerator({super.key});
@@ -41,7 +36,7 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
                   color: AppColors.grey2Color,
                 ),
                 label: const Text(
-                  'Export PDF',
+                  'Invoice',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.grey2Color,
@@ -65,7 +60,7 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
                   color: AppColors.grey2Color,
                 ),
                 label: const Text(
-                  'Export Contract',
+                  'Contract',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.grey2Color,
@@ -334,8 +329,9 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
                   Expanded(
                     flex: 2,
                     child: MyTextFieldForm(
+                      keyboardType: TextInputType.number,
                       hintText: 'Quantity',
-                      controller: controller.itemNameController,
+                      controller: TextEditingController(text: controller.quantity.toString()),
                       suffixIcon: Column(
                         children: [
                           InkWell(
@@ -368,6 +364,9 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
               hintText: 'Amount Due (Optional)',
               controller: controller.amountDueOptionalController,
               prefixIcon: Icon(Icons.currency_rupee,size: 18,),
+              onChanged: (a){
+                controller.update();
+              },
             ),
               const SizedBox(height: 12),
               ElevatedButton.icon(
@@ -414,7 +413,7 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
               _buildSummaryRow('Paid on:', '16 May 2026'),
               _buildSummaryRow(
                 'Amount Due:',
-                '₹ ${controller.total.toStringAsFixed(2)}',
+                '₹ ${controller.amountDueOptionalController.text}',
               ),
               const SizedBox(height: 32),
               const Text(

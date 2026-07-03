@@ -1,4 +1,3 @@
-import 'package:start3x/app/constant/app_fonts.dart';
 import '../../exports.dart';
 
 class LogoTextWidget extends StatelessWidget {

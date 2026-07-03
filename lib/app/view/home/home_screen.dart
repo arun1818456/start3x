@@ -1,13 +1,3 @@
-import 'package:get/get.dart';
-import 'package:start3x/app/constant/app_fonts.dart';
-import 'package:start3x/app/constant/assets_images.dart';
-import 'package:start3x/app/routes/routes.dart';
-import 'package:start3x/app/view/home/home_screen_controller.dart';
-import 'package:start3x/app/widgets/button.dart';
-import 'package:start3x/app/widgets/footer_widget.dart';
-import 'package:start3x/app/widgets/logo_text_widget.dart';
-import 'package:start3x/app/widgets/text_field.dart';
-
 import '../../../exports.dart';
 
 class HomePage extends StatelessWidget {
