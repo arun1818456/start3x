@@ -382,14 +382,14 @@ class InvoiceGeneratorController extends GetxController {
                     pw.Padding(
                       padding: const pw.EdgeInsets.all(10),
                       child: pw.Text(
-                        "Appointments (SITS)\n₹1200 x 15 Sits",
+                        itemNameController.text,
                       ),
                     ),
 
                     pw.Padding(
                       padding: const pw.EdgeInsets.all(10),
                       child: pw.Text(
-                        "₹18,000/-",
+                        priceController.text,
                       ),
                     ),
 
