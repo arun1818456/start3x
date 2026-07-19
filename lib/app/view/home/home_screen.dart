@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
           textButton(controller, text: "Dashboard"),
           Spacer(),
           CustomButton(
-            text:  "Log In/Sign Up",
+            text:  "coming-soon",//Log In/Sign Up
             onPressed: () {},
             width: Get.width * 0.09,
             buttonHeight: 30,

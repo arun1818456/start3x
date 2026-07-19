@@ -1,10 +1,11 @@
-import 'package:get/get.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import '../../../exports.dart';
 
 class InvoiceGeneratorController extends GetxController {
+
+  bool addTermsEnabled = false;
   // Company Details
   final TextEditingController invoiceNoController = TextEditingController(text: 'SME001');
   final TextEditingController dateController = TextEditingController(text: '0/0/0');
@@ -38,6 +39,10 @@ class InvoiceGeneratorController extends GetxController {
   final TextEditingController billToZipController = TextEditingController();
   final TextEditingController billToEmailController = TextEditingController();
   final TextEditingController billToWebsiteController = TextEditingController();
+
+  //for Contract
+  final TextEditingController services = TextEditingController();
+  final TextEditingController termsServices = TextEditingController();
 
   // Calculations
   double get subtotal {
@@ -170,6 +175,323 @@ class InvoiceGeneratorController extends GetxController {
     await Printing.layoutPdf(
         onLayout: (PdfPageFormat format) async => pdf.save(),
         name: 'Invoice_${invoiceNoController.text.isEmpty ? "New" : invoiceNoController.text}.pdf'
+    );
+  }
+
+  Future<void> exportAgreement() async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(35),
+        build: (context) {
+          return [
+            pw.Center(
+              child: pw.Column(
+                children: [
+
+                  // pw.Container(
+                  //   width: 70,
+                  //   height: 70,
+                  //   decoration: const pw.BoxDecoration(
+                  //     color: PdfColors.teal,
+                  //     shape: pw.BoxShape.circle,
+                  //   ),
+                  //   child: pw.Center(
+                  //     child: pw.Text(
+                  //       "id",
+                  //       style: pw.TextStyle(
+                  //         color: PdfColors.white,
+                  //         fontWeight: pw.FontWeight.bold,
+                  //         fontSize: 34,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  pw.SizedBox(height: 20),
+
+                  pw.Text(
+                    "Confirmed & Verified Agreement",
+                    style: pw.TextStyle(
+                      color: PdfColors.blue,
+                      fontWeight: pw.FontWeight.bold,
+                      fontSize: 24,
+                    ),
+                  ),
+
+                  pw.SizedBox(height: 10),
+
+                  pw.Text("Prepared by"),
+
+                  pw.SizedBox(height: 10),
+
+                  pw.Text(
+                    companyNameController.text.trim(),
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+
+                  pw.Text("GSTIN : ${gstinController.text.trim()}"),
+
+                  pw.SizedBox(height: 15),
+
+                  pw.Text("For"),
+
+                  pw.SizedBox(height: 10),
+
+                  pw.Text(
+                    billToNameController.text.trim(),
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+
+                  pw.Text("GSTIN : ${billToGstinController.text.trim()}"),
+
+                  pw.SizedBox(height: 10),
+
+                  pw.Text(dateController.text.trim()),
+                ],
+              ),
+            ),
+            pw.SizedBox(height: 40),
+            pw.Text(
+              "SUMMARY",
+              style: pw.TextStyle(
+                color: PdfColors.blue,
+                fontSize: 28,
+                fontWeight: pw.FontWeight.bold,
+              ),
+            ),
+
+            pw.SizedBox(height: 10),
+
+            pw.RichText(
+             text: pw.TextSpan(
+               text: "The following contract has been prepared ",
+               children: [
+                 pw.TextSpan(
+                   text: companyNameController.text.trim(),
+                   style: pw.TextStyle(
+                     fontWeight: pw.FontWeight.bold,
+                   ),
+                 ),
+                 pw.TextSpan(
+                   text: " for \n",
+                 ),
+                 pw.TextSpan(
+                   text: billToNameController.text.trim(),
+                   style: pw.TextStyle(
+                     fontWeight: pw.FontWeight.bold,
+                   ),
+                 ),
+                 pw.TextSpan(
+                   text: ". This contract outlines the services provided by ",
+                 ),
+                 pw.TextSpan(
+                   text: companyNameController.text.trim(),
+                   style: pw.TextStyle(
+                     fontWeight: pw.FontWeight.bold,
+                   ),
+                 ),
+                 ]
+             )
+            ),
+
+            pw.SizedBox(height: 30),
+
+            //==========================
+            // SERVICES
+            //==========================
+
+            pw.Text(
+              "Services",
+              style: pw.TextStyle(
+                color: PdfColors.orange,
+                fontWeight: pw.FontWeight.bold,
+                fontSize: 22,
+              ),
+            ),
+
+            pw.SizedBox(height: 10),
+
+            pw.Text(
+              services.text,
+              textAlign: pw.TextAlign.justify,
+            ),
+
+            pw.SizedBox(height: 30),
+
+            //==========================
+            // Fee Schedule
+            //==========================
+
+            pw.Text(
+              "FEE SCHEDULE",
+              style: pw.TextStyle(
+                color: PdfColors.blue,
+                fontWeight: pw.FontWeight.bold,
+                fontSize: 28,
+              ),
+            ),
+
+            pw.SizedBox(height: 15),
+
+            pw.Table(
+              border: pw.TableBorder.all(),
+              columnWidths: {
+                0: const pw.FlexColumnWidth(5),
+                1: const pw.FlexColumnWidth(2),
+              },
+              children: [
+
+                pw.TableRow(
+                  children: [
+
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(10),
+                      child: pw.Text(
+                        "SERVICE DESCRIPTION COST",
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(10),
+                      child: pw.Text(
+                        "TOTAL",
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+
+                pw.TableRow(
+                  children: [
+
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(10),
+                      child: pw.Text(
+                        "Appointments (SITS)\n₹1200 x 15 Sits",
+                      ),
+                    ),
+
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(10),
+                      child: pw.Text(
+                        "₹18,000/-",
+                      ),
+                    ),
+
+                  ],
+                ),
+              ],
+            ),
+
+            pw.SizedBox(height: 35),
+
+            //==========================
+            // TERMS
+            //==========================
+
+            pw.Text(
+              "TERMS OF SERVICE",
+              style: pw.TextStyle(
+                color: PdfColors.blue,
+                fontWeight: pw.FontWeight.bold,
+                fontSize: 28,
+              ),
+            ),
+
+            pw.SizedBox(height: 20),
+            pw.Text(
+              termsServices.text,
+              textAlign: pw.TextAlign.justify,
+            ),
+
+            pw.SizedBox(height: 40),
+
+            //==========================
+            // SIGNATURE
+            //==========================
+
+            pw.Text(
+              "By signing below both parties agree to the terms and conditions mentioned above.",
+              textAlign: pw.TextAlign.justify,
+            ),
+
+            pw.SizedBox(height: 30),
+
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+
+                    pw.Text(
+                      "Insights Door",
+                      style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    ),
+
+                    pw.SizedBox(height: 60),
+
+                    pw.Container(
+                      width: 180,
+                      decoration: const pw.BoxDecoration(
+                        border: pw.Border(
+                          bottom: pw.BorderSide(),
+                        ),
+                      ),
+                    ),
+
+                    pw.Text("Signature"),
+                  ],
+                ),
+
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+
+                    pw.Text(
+                      "GAB SOLARTECH PRIVATE LIMITED",
+                      style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    ),
+
+                    pw.SizedBox(height: 60),
+
+                    pw.Container(
+                      width: 180,
+                      decoration: const pw.BoxDecoration(
+                        border: pw.Border(
+                          bottom: pw.BorderSide(),
+                        ),
+                      ),
+                    ),
+
+                    pw.Text("Signature"),
+                  ],
+                ),
+              ],
+            ),
+          ];
+        },
+      ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (format) async => pdf.save(),
     );
   }
 

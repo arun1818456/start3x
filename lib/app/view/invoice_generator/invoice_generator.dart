@@ -54,7 +54,7 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: ElevatedButton.icon(
-                onPressed: controller.exportToPdf,
+                onPressed: controller.exportAgreement,
                 icon: const Icon(
                   Icons.picture_as_pdf,
                   color: AppColors.grey2Color,
@@ -210,18 +210,7 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
                 hintText: 'Ifsc Code',
                 controller: controller.ifscController,
               ),
-              const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerRight,
-                child: CustomButton(
-                  text: "Add Terms",
-                  onPressed: () {},
-                  color: AppColors.greyDarkColor,
-                  width: Get.width * 0.08,
-                  buttonHeight: 30,
-                  radius: 8,
-                ),
-              ),
+
             ],
           ),
         ),
@@ -430,7 +419,7 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
               ),
               const SizedBox(height: 12),
               MyTextFieldForm(
-                hintText: 'Your GSTIN',
+                hintText: 'GSTIN',
                 controller: controller.billToGstinController,
               ),
               const SizedBox(height: 12),
@@ -466,6 +455,37 @@ class _InvoiceGeneratorState extends State<InvoiceGenerator> {
                 hintText: 'Website',
                 controller: controller.billToWebsiteController,
               ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerRight,
+                child: CustomButton(
+                  text: "Add Terms for Contract",
+                  onPressed: () {
+                    controller.addTermsEnabled = !controller.addTermsEnabled;
+                    controller.update();
+                  },
+                  color: AppColors.greyDarkColor,
+                  width: Get.width * 0.15,
+                  buttonHeight: 30,
+                  radius: 8,
+                ),
+              ),
+              if(controller.addTermsEnabled)...[
+                const SizedBox(height: 12),
+                MyTextFieldForm(
+                  verticalTextPadding: 15,
+                  hintText: 'Services (Add Description)',
+                  controller: controller.services,
+                  minLines: 1,maxLine: 20,
+                ),
+                const SizedBox(height: 12),
+                MyTextFieldForm(
+                  verticalTextPadding: 15,
+                  hintText: 'TERMS OF SERVICE',
+                  controller: controller.termsServices,
+                  minLines: 1,maxLine: 20,
+                ),
+              ]
             ],
           ),
         ),
