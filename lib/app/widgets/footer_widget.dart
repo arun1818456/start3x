@@ -72,7 +72,7 @@ class FooterWidget extends StatelessWidget {
           Divider(color: Colors.grey[700]),
           const SizedBox(height: 20),
           const Text(
-            '© 2026 Start3x. All rights reserved. GSTIN: 18EKHPM0377M1ZL',
+            '© 2026 Start3x. All rights reserved.',
             style: TextStyle(fontSize: 14, color: AppColors.greyDarkColor),
           ),
         ],
