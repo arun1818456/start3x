@@ -1,9 +1,4 @@
-
-
-import 'package:get/get.dart';
 import 'package:start3x/app/routes/pages.dart';
-
-import 'app/routes/routes.dart';
 import 'exports.dart';
 
 void main() {
