@@ -1,7 +1,7 @@
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import '../../../exports.dart';
+import '../../../../exports.dart';
 
 class InvoiceGeneratorController extends GetxController {
 
