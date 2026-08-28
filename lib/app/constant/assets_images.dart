@@ -9,5 +9,8 @@ class AppImages {
   static const String fileManager = "$path/fileManager.png";
   static const String solutions = "$path/solutions.png";
   static const String fullLogo = "$path/full_logo.png";
+  static const String appLogo = "$path/app_logo.png";
+
+  static const String googleLogo = "$path/google.png";
   // static const String googleLogo = "$path/google-logo.png";
 }

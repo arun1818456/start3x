@@ -2,21 +2,21 @@ import 'package:start3x/app/routes/pages.dart';
 import 'exports.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget with BaseClass{
-  const MyApp({super.key});
+   MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        keyBoardOff(context);
+        keyBoardOff();
       },
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.homeScreen,
+        initialRoute: AppPages.initialRoute,
         getPages: AppPages.getPages,
       ),
     );

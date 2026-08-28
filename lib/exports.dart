@@ -16,3 +16,9 @@ export 'package:start3x/app/routes/routes.dart';
 export 'package:start3x/app/view/web/home/home_screen_controller.dart';
 export 'package:start3x/app/view/web/invoice_generator/invoice_generator.dart';
 export 'package:start3x/app/view/web/profile/profile_screen.dart';
+export 'package:start3x/app/view/ui_widget/login_signup_ui_widget.dart';
+export 'package:start3x/app/view/crm/auth/sign_up/signup_controller.dart';
+export 'package:start3x/app/view/crm/auth/sign_up/sign_up.dart';
+export 'package:start3x/app/view/crm/auth/login/login_controller.dart';
+export 'package:start3x/app/view/crm/auth/splash/splash_controller.dart';
+
