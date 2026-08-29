@@ -1,7 +1,7 @@
-String baseUrl = "http://172.25.171.57:3000";
+String baseUrl = "http://10.243.65.57:3000";
 // String baseUrl = "http://192.168.1.109:3000";
 
-// const String guestLoginApiEP = "/api/user/guest";
+const String createUserApiEP = "/api/user/create";
 // const String getUserByPIDApiEP = "/api/user/user";
 // const String sendFriendRequestApiEP = "/api/user/sendRequest";
 // const String getConnectionsRequestsApiEP = "/api/user/connections";

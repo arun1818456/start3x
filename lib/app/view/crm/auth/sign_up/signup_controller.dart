@@ -1,6 +1,8 @@
 
+import 'package:start3x/app/constant/api_constant.dart';
+import 'package:start3x/app/constant/local_keys.dart';
 import 'package:start3x/app/constant/validations.dart';
-
+import 'package:start3x/app/services/api_handler.dart';
 import '../../../../../exports.dart';
 
 class SignUpController extends GetxController  with BaseClass{
@@ -20,26 +22,16 @@ class SignUpController extends GetxController  with BaseClass{
       keyBoardOff();
 
       try {
-        // // Create user with email and password
-        // UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        //   email: emailController.text.trim(),
-        //   password: passwordController.text.trim(),
-        // );
-        //
-        // // Create new user in Firestore
-        // await createNewUser(
-        //   provider: "gmail",
-        //   uid: userCredential.user!.uid,
-        //   email: userCredential.user!.email.toString(),
-        //   emailVerified: userCredential.user!.emailVerified,
-        //   photoURL: "",
-        //   name: "",
-        // );
-        //
-        // // Navigate to the next screen
-        // Get.offAllNamed(AppRoutes.passKeyScreen);
+
+        var res = await  httpRequest(REQUEST.post, createUserApiEP, {
+          "email":emailController.text.trim(),
+          "password":passwordController.text.trim()
+        });
+      storage.write(LocalKeys.userData,res["userData"]);
+      if(res["success"]){
+
+      }
       }  catch (e) {
-        // Handle any other exceptions
        showMySnackBar(e.toString(),error: true);
       } finally {
       }
