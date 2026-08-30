@@ -562,4 +562,162 @@ class CommonDialogs with BaseClass {
       },
     );
   }
+
+  static void showScalePlanDialog(BuildContext context, {required String planName}) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "Scale Plan",
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 300),
+      transitionBuilder: (context, a1, a2, child) {
+        return Transform.scale(
+          scale: a1.value,
+          child: Opacity(opacity: a1.value, child: child),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              width: 400,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0F0F0),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "$planName plan",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFF555555),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  _buildDialogTextField(hint: "Legal Business Name (Required)"),
+                  const SizedBox(height: 16),
+                  _buildDialogTextField(hint: "Your Name"),
+                  const SizedBox(height: 16),
+                  _buildDialogTextField(
+                    hint: "+91",
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(left: 12, right: 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(AppImages.flag, width: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildDialogTextField(
+                    hint: "When would you like to start?",
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(height: 24, width: 1, color: Colors.grey.shade400),
+                        const SizedBox(width: 12),
+                        const Padding(
+                          padding: EdgeInsets.only(right: 12),
+                          child: Icon(Icons.calendar_month_outlined, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  CustomPaint(
+                    painter: DashedRectPainter(color: Colors.black45, gap: 4),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20),
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "GST Document Attachment (PDF,\nPNG, or JPEG format only).",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF444444),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  CustomButton(
+                    text: "Start Now",
+                    onPressed: () => Get.back(),
+                    width: 200,
+                    buttonHeight: 45,
+                    radius: 12,
+                    color: AppColors.appColorOrange,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static Widget _buildDialogTextField({required String hint, Widget? prefixIcon, Widget? suffixIcon}) {
+    return MyTextFieldForm(
+      hintText: hint,
+      prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
+      fillColor: const Color(0xFFDCDCDC),
+      borderColor: Colors.transparent,
+      formRadius: 12,
+      hintStyle: const TextStyle(color: Color(0xFF666666), fontSize: 14),
+    );
+  }
+}
+
+class DashedRectPainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+  final double gap;
+
+  DashedRectPainter({this.color = Colors.black, this.strokeWidth = 1.0, this.gap = 5.0});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint dashedPaint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    // Use a simpler approach for dashed lines to avoid complex path metrics in CanvasKit
+    double radius = 12.0;
+    RRect rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Radius.circular(radius),
+    );
+
+    Path path = Path()..addRRect(rrect);
+    
+    // Draw using dash path effect logic but more carefully
+    for (final measure in path.computeMetrics()) {
+      double distance = 0.0;
+      while (distance < measure.length) {
+        final double nextDistance = distance + gap;
+        canvas.drawPath(
+          measure.extractPath(distance, nextDistance),
+          dashedPaint,
+        );
+        distance = nextDistance + gap;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant DashedRectPainter oldDelegate) {
+    return oldDelegate.color != color || oldDelegate.gap != gap;
+  }
 }

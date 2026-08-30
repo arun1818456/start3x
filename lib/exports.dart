@@ -2,6 +2,8 @@ export 'package:flutter/material.dart';
 export 'package:start3x/app/view/web/home/home_screen.dart';
 export 'package:start3x/app/constant/colors.dart';
 export 'package:start3x/app/mixin/base_class.dart';
+export 'package:start3x/app/mixin/responsive_helper.dart';
+export 'package:start3x/app/widgets/dialogs/dialogs.dart';
 export 'package:get/get.dart';
 export 'package:start3x/app/constant/app_fonts.dart';
 export 'package:start3x/app/view/web/profile/profile_controller.dart';

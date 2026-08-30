@@ -36,23 +36,16 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final effectiveColor = color ?? AppColors.appColorOrange;
 
-    return Container(
-      margin: margin ?? EdgeInsets.zero,
-      width: width ?? double.infinity,
-      height: buttonHeight ?? 52,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius ?? 8),
-        // boxShadow: loading == true
-        //     ? []
-        //     : [
-        //         BoxShadow(
-        //           color: effectiveColor.withValues(alpha: 0.3),
-        //           blurRadius: 10,
-        //           offset: const Offset(0, 5),
-        //         ),
-        //       ],
-      ),
-      child: ElevatedButton(
+    return HoverScaleWidget(
+      scale: 1.02,
+      child: Container(
+        margin: margin ?? EdgeInsets.zero,
+        width: width ?? double.infinity,
+        height: buttonHeight ?? 52,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius ?? 12),
+        ),
+        child: ElevatedButton(
         onPressed: loading == true ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: effectiveColor,
@@ -92,6 +85,6 @@ class CustomButton extends StatelessWidget {
                         ),
                   ),
       ),
-    );
+    ));
   }
 }
