@@ -1,3 +1,7 @@
+import 'package:start3x/app/mixin/responsive_helper.dart';
+import 'package:start3x/app/widgets/dialogs/dialogs.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../exports.dart';
 
 class WebHomeScreen extends StatelessWidget {
@@ -5,6 +9,8 @@ class WebHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = ResponsiveHelper.isMobile(context);
+    bool isTablet = ResponsiveHelper.isTablet(context);
     return GetBuilder(
       init: HomeScreenController(),
       builder: (controller) => Scaffold(
@@ -42,43 +48,155 @@ class WebHomeScreen extends StatelessWidget {
                         _buildPartnerSection(context),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 150,left: 50,right: 50),
-                      child: Row(
+
+                    const SizedBox(height: 60),
+                    if (isMobile || isTablet)
+                      Column(
                         children: [
                           _buildPricingCard(
-                            plan: 'Essential',
-                            priceA: '₹20,000',
-                            priceB: ' (Rupees only)',
-                            pLow: "14 visit done",
-                            period: '15 days',
-                            marginTop: 150,
+                            plan: 'STARTER',
+                            color: const Color(0xFF0052CC),
+                            icon: Icons.rocket_launch_outlined,
+                            price: '30,000',
+                            appointments: '15',
+                            isPopular: false,
                           ),
-                          const SizedBox(width: 32),
+                          const SizedBox(height: 32),
                           _buildPricingCard(
-                            plan: 'Professional',
-                            pLow: "23 visit done",
-                            priceA: '₹30,000 ',
-                            priceB: '(Rupees only)',
-                            period: '25 days',
+                            plan: 'MOST POPULAR',
+                            color: const Color(0xFFFF6B35),
+                            icon: Icons.auto_graph,
+                            price: '60,000',
+                            appointments: '45',
+                            isPopular: true,
+                            breakdown: [
+                              '15 Included in the first ₹30,000',
+                              '+ 30 Additional at ₹1,000 each',
+                            ],
                           ),
-                          const SizedBox(width: 32),
+                          const SizedBox(height: 32),
                           _buildPricingCard(
-                            plan: 'Enterprise',
-                            pLow: "for 30 appointments.",
-                            priceA: '₹1200 ',
-                            priceB: '- per visit done',
-                            period: 'within preferred time',
-                            marginTop: 150,
+                            plan: 'SCALE',
+                            color: const Color(0xFF00875A),
+                            icon: Icons.track_changes,
+                            price: '90,000',
+                            appointments: '75',
+                            isPopular: false,
+                            breakdown: [
+                              '15 Included in the first ₹30,000',
+                              '+ 60 Additional at ₹1,000 each',
+                            ],
                           ),
                         ],
+                      )
+                    else
+                      Padding(
+                          padding: const EdgeInsets.only(top: 350,left: 50,right: 50),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildPricingCard(
+                              plan: 'STARTER',
+                              color: const Color(0xFF0052CC),
+                              icon: Icons.rocket_launch_outlined,
+                              price: '30,000',
+                              appointments: '15',
+                              isPopular: false,
+                            ),
+                            const SizedBox(width: 24),
+                            _buildPricingCard(
+                              plan: 'MOST POPULAR',
+                              color: const Color(0xFFFF6B35),
+                              icon: Icons.auto_graph,
+                              price: '60,000',
+                              appointments: '45',
+                              isPopular: true,
+                              breakdown: [
+                                '15 Included in the first ₹30,000',
+                                '+ 30 Additional at ₹1,000 each',
+                              ],
+                            ),
+                            const SizedBox(width: 24),
+                            _buildPricingCard(
+                              plan: 'SCALE',
+                              color: const Color(0xFF00875A),
+                              icon: Icons.track_changes,
+                              price: '90,000',
+                              appointments: '75',
+                              isPopular: false,
+                              breakdown: [
+                                '15 Included in the first ₹30,000',
+                                '+ 60 Additional at ₹1,000 each',
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 150,left: 50,right: 50),
+                    //   child: Row(
+                    //     children: [
+                    //       _buildPricingCard(
+                    //         plan: 'Essential',
+                    //         priceA: '₹20,000',
+                    //         priceB: ' (Rupees only)',
+                    //         pLow: "14 visit done",
+                    //         period: '15 days',
+                    //         marginTop: 150,
+                    //       ),
+                    //       const SizedBox(width: 32),
+                    //       _buildPricingCard(
+                    //         plan: 'Professional',
+                    //         pLow: "23 visit done",
+                    //         priceA: '₹30,000 ',
+                    //         priceB: '(Rupees only)',
+                    //         period: '25 days',
+                    //       ),
+                    //       const SizedBox(width: 32),
+                    //       _buildPricingCard(
+                    //         plan: 'Enterprise',
+                    //         pLow: "for 30 appointments.",
+                    //         priceA: '₹1200 ',
+                    //         priceB: '- per visit done',
+                    //         period: 'within preferred time',
+                    //         marginTop: 150,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ] else...[
                 _buildDashBoard(),
               ],
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(25),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Become a Partner',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.appColorOrange,
+                        fontFamily: AppFonts.inter,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Become a partner and bring people who need our services.Earn 10% profit sharing on every closed deal\n"
+                          "and receive monthly payouts as long as the client stays active with us.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, color: Colors.black, height: 1.6),
+                    ),
+                    const SizedBox(height: 60),
+                    _buildPartnerContactForm(context),
+                  ],
+                ),
+              ),
               // Footer
               FooterWidget(),
 
@@ -162,33 +280,35 @@ class WebHomeScreen extends StatelessWidget {
                     // Play Video
                   },
                   borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    height: 30,
-                    width: 150,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.appColorOrange,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.play_circle_outline,
-                          color: Colors.white,
-                          size: 22,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          "Watch Video",
-                          style: TextStyle(
+                  child: HoverScaleWidget(
+                    child: Container(
+                      height: 30,
+                      width: 150,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.appColorOrange,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.play_circle_outline,
                             color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppFonts.inter,
+                            size: 22,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 8),
+                          Text(
+                            "Watch Video",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: AppFonts.inter,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -281,27 +401,35 @@ class WebHomeScreen extends StatelessWidget {
   }
 
   Widget _buildPricingSection(BuildContext context) {
+    bool isMobile = ResponsiveHelper.isMobile(context);
+    bool isTablet = ResponsiveHelper.isTablet(context);
+    double horizontalPadding = ResponsiveHelper.getHorizontalPadding(context);
+
     return Container(
       width: double.infinity,
-      color: const Color(0xFFF5F5F5),
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 80),
       child: Column(
         children: [
-          const Text(
-            'Get Started',
+          const Icon(Icons.wb_sunny_outlined, color: Colors.orange, size: 40),
+          const SizedBox(height: 12),
+          Text(
+            'SOLAR GROWTH PLAYBOOK',
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18,
-              color: AppColors.appColorOrange,
+              fontSize: isMobile ? 32 : 48,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF0D1B3E),
               fontFamily: AppFonts.inter,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Text(
-            'Choose your plan today and start meeting qualified solar\nbuyers instead of chasing leads.',
+            'A simple, proven system to generate qualified appointments\nso you can focus on growing your solar business.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 25,
-              color: AppColors.greyDarkColor,
+              fontSize: isMobile ? 16 : 18,
+              color: const Color(0xFF666666),
               fontFamily: AppFonts.inter,
             ),
           ),
@@ -311,111 +439,134 @@ class WebHomeScreen extends StatelessWidget {
     );
   }
 
+
+
   Widget _buildPricingCard({
     required String plan,
-    required String priceA,
-    required String priceB,
-    required String pLow,
-    required String period,
-    double? marginTop,
+    required Color color,
+    required IconData icon,
+    required String price,
+    required String appointments,
+    required bool isPopular,
+    List<String>? breakdown,
   }) {
-    return Expanded(
+    return HoverScaleWidget(
+      scale: 1.03,
       child: Container(
-        margin: EdgeInsets.only(top: marginTop ?? 0),
-        padding: const EdgeInsets.all(32),
+        width: 320,
         decoration: BoxDecoration(
-          color: AppColors.greyColor,
-          borderRadius: BorderRadius.circular(50),
-          border: Border.all(color: AppColors.appColorOrange, width: 1),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isPopular ? color : Colors.grey,
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: isPopular ? color.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.2),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              plan,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: AppFonts.inter,
-                color: AppColors.appColorOrange,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              "For growing businesses. Get consistent,\n quality solar appointments.",
-              style: const TextStyle(
-                color: AppColors.greyDarkColor,
-                fontFamily: AppFonts.inter,
-              ),
-              textAlign: TextAlign.center,
-            ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              margin: EdgeInsets.only(top: 25, bottom: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      text: priceA,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.appColorOrange,
-                        fontFamily: AppFonts.inter,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: priceB,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w200,
-                            color: AppColors.appColorOrange,
-                            fontFamily: AppFonts.inter,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    pLow,
-                    style: const TextStyle(
-                      color: AppColors.greyDarkColor,
-                      fontFamily: AppFonts.inter,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CustomButton(
-              text: "Get Started",
-              onPressed: () {},
-              width: Get.width * 0.18,
-              buttonHeight: 30,
-              radius: 8,
-            ),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Text(
-                "Confirmed solar appointments\n"
-                "Replacement on cancellation\n"
-                "Delivery in $period \n"
-                "Targeted leads (location & interest)\n"
-                " Less cold calling, more savings\n"
-                "Easy-to-convert meetings",
-                style: TextStyle(
-                  color: AppColors.greyDarkColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w300,
-                  fontFamily: AppFonts.inter,
+                color: color,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
                 ),
-                textAlign: TextAlign.center,
+              ),
+              child: Text(
+                plan,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  letterSpacing: 1,
+                ),
               ),
             ),
+            const SizedBox(height: 32),
+            Icon(icon, color: color, size: 48),
+            const SizedBox(height: 20),
+            Text(
+              '₹$price',
+              style: const TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF0D1B3E),
+              ),
+            ),
+            const Text(
+              '/ 30 Days',
+              style: TextStyle(color: Colors.grey, fontSize: 16),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Divider(indent: 40, endIndent: 40),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  appointments,
+                  style: TextStyle(
+                    fontSize: 56,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Text(
+                    'QUALIFIED\nAPPOINTMENTS\nINCLUDED',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF0D1B3E),
+                      height: 1.2,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            if (breakdown != null) ...[
+              const SizedBox(height: 20),
+              ...breakdown.map((text) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
+                ),
+              )),
+            ],
+            const SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: CustomButton(
+                text: "Get Started",
+                onPressed: () {
+                  CommonDialogs.showScalePlanDialog(
+                    Get.context!,
+                    planName: plan.toLowerCase().capitalizeFirst!,
+                  );
+                },
+                width: double.infinity,
+                buttonHeight: 50,
+                radius: 12,
+                color: isPopular ? color : Colors.white,
+                textColor: isPopular ? Colors.white : color,
+                isBorderEnable: !isPopular,
+                borderColor: color,
+              ),
+            ),
+            const SizedBox(height: 32),
           ],
         ),
       ),
@@ -429,30 +580,254 @@ class WebHomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
       child: Column(
         children: [
-          SizedBox(height: 150,),
-          const Text(
-            'Become a Partner',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.appColorOrange,
-              fontFamily: AppFonts.inter,
+          SizedBox(height: 100,),
+          const SizedBox(height: 40),
+          _buildInfoBox(context),
+          const SizedBox(height: 20),
+          _buildWhatWeDoSection(context),
+          SizedBox(height: 15,),
+
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPartnerContactForm(BuildContext context) {
+    bool isMobile = ResponsiveHelper.isMobile(context);
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 1200),
+      padding: EdgeInsets.all(isMobile ? 24 : 60),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE6E6E6),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: isMobile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildPartnerContactInfo(),
+                const SizedBox(height: 60),
+                _buildPartnerFormFields(),
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 2, child: _buildPartnerContactInfo()),
+                const SizedBox(width: 80),
+                Expanded(flex: 3, child: _buildPartnerFormFields()),
+              ],
+            ),
+    );
+  }
+
+  Widget _buildPartnerContactInfo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Three ways in.",
+          style: TextStyle(
+            fontSize: 48,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF0D1B3E),
+            fontFamily: AppFonts.inter,
+          ),
+        ),
+        const SizedBox(height: 16),
+        const Text(
+          "Whichever route, you'll reach a partner — not a sales funnel.",
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            fontFamily: AppFonts.inter,
+          ),
+        ),
+        const SizedBox(height: 48),
+        _buildContactBox(
+          label: "EMAIL",
+          value: "sme.start3x@gmail.com",
+          onTap: () async {
+            final Uri emailLaunchUri = Uri(
+              scheme: 'mailto',
+              path: 'sme.start3x@gmail.com',
+            );
+            try {
+              await launchUrl(emailLaunchUri, mode: LaunchMode.externalApplication);
+            } catch (e) {
+              debugPrint("Could not launch email: $e");
+            }
+          },
+          action: const Icon(Icons.arrow_forward, size: 20),
+        ),
+        const SizedBox(height: 20),
+        _buildContactBox(
+          label: "DIRECT LINE",
+          value: "+91 76960-23635",
+          onTap: () async {
+            final Uri telLaunchUri = Uri(
+              scheme: 'tel',
+              path: '+917696023635',
+            );
+            try {
+              await launchUrl(telLaunchUri, mode: LaunchMode.externalApplication);
+            } catch (e) {
+              debugPrint("Could not launch phone: $e");
+            }
+          },
+          action: _buildActionText("CALL"),
+        ),
+        const SizedBox(height: 20),
+        _buildContactBox(
+          label: "Office",
+          value: "Plot No. C-157, Industrial Area, Phase VII, Sector 73, Mohali, Punjab – 160055",
+          onTap: () async {
+            const String lat = "30.7046";
+            const String long = "76.6923";
+            final String googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=$lat,$long";
+            
+            try {
+              await launchUrl(Uri.parse(googleMapsUrl), mode: LaunchMode.externalApplication);
+            } catch (e) {
+              debugPrint("Could not launch maps: $e");
+            }
+          },
+          action: _buildActionText("MAP"),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContactBox({
+    required String label,
+    required String value,
+    required Widget action,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF0D1B3E),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: action,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+    );
+  }
+
+  Widget _buildPartnerFormFields() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildPartnerFormField(number: "01", label: "YOUR NAME", hint: "Type here"),
+        _buildPartnerFormField(number: "02", label: "EMAIL", hint: "you@company.com"),
+        _buildPartnerFormField(number: "03", label: "CONTACT NUMBER", hint: "enter your number with country code"),
+        _buildPartnerFormField(number: "04", label: "OCCUPATION", hint: "Optional"),
+        // _buildPartnerFormField(number: "05", label: "BUDGET RANGE", hint: "Select a range", isDropdown: true),
+        // _buildPartnerFormField(number: "06", label: "TELL US ABOUT THE PROJECT", hint: "One paragraph is plenty — we'll ask the rest.", isMultiline: true),
+        CustomButton(
+          text: "Become Partner",
+          onPressed: () {},
+          width: Get.width * 0.11,
+          buttonHeight: 30,
+          radius: 8,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPartnerFormField({
+    required String number,
+    required String label,
+    required String hint,
+    bool isDropdown = false,
+    bool isMultiline = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "[ $number ] — $label",
+            style: const TextStyle(
+              fontSize: 11,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1,
             ),
           ),
-          const SizedBox(height: 20),
-          const Text(
-            "Become a partner and bring people who need our services.\n"
-            " Earn 10% profit sharing on every closed deal and receive \n"
-            "monthly payouts as long as the client stays active with us.",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 22, color: Colors.white, height: 1.6),
-          ),
-          const SizedBox(height: 32),
-          CustomButton(
-            text: "Become Partner",
-            onPressed: () {},
-            width: Get.width * 0.11,
-            buttonHeight: 30,
-            radius: 8,
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  maxLines: isMultiline ? null : 1,
+                  style: const TextStyle(fontSize: 18, color: Color(0xFF0D1B3E)),
+                  decoration: InputDecoration(
+                    hintText: hint,
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                    border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+              if (isDropdown)
+                Icon(Icons.keyboard_arrow_down, color: Colors.brown.shade300, size: 24),
+            ],
           ),
         ],
       ),
@@ -631,6 +1006,105 @@ class WebHomeScreen extends StatelessWidget {
                 color: AppColors.appColorOrange,
               ),
               textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWhatWeDoSection(BuildContext context) {
+    bool isMobile = ResponsiveHelper.isMobile(context);
+    return Column(
+      children: [
+        const Text(
+          'What will we do in Plans',
+          style: TextStyle(
+            fontSize: 16,
+            color: AppColors.appColorOrange,
+            fontFamily: AppFonts.inter,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Wrap(
+          spacing: 24,
+          runSpacing: 24,
+          alignment: WrapAlignment.center,
+          children: [
+            _buildServiceItem(Icons.campaign_outlined, 'MARKETING'),
+            _buildServiceItem(Icons.groups_outlined, 'LEAD GENERATION'),
+            _buildServiceItem(Icons.phone_in_talk_outlined, 'CALLING'),
+            _buildServiceItem(Icons.sync_outlined, 'FOLLOW-UP'),
+            _buildServiceItem(Icons.chat_outlined, 'CLIENT MESSAGES & REPLIES'),
+            _buildServiceItem(Icons.calendar_month_outlined, 'APPOINTMENT SETTING'),
+            _buildServiceItem(Icons.storage_outlined, 'DATA MANAGEMENT & SHEET UPDATE'),
+            _buildServiceItem(Icons.assignment_outlined, 'GUIDING TASKS TO OVERCOME MISS OPPORTUNITIES'),
+            _buildServiceItem(Icons.share_outlined, 'SOCIAL MEDIA STRATEGY'),
+            _buildServiceItem(Icons.bar_chart_outlined, 'DAILY REPORTING'),
+            _buildServiceItem(Icons.account_tree_outlined, 'KNOWING WORK FLOW FROM CLIENT TEAM'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoBox(BuildContext context) {
+    bool isMobile = ResponsiveHelper.isMobile(context);
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 900),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF0F7FF),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFCCE0FF)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.info_outline, color: Color(0xFF0052CC), size: 32),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              'You always start with 15 qualified appointments included in the first ₹30,000. '
+                  'After that, you only pay ₹1,000 for every additional qualified appointment you receive.',
+              style: TextStyle(color: const Color(0xFF0D1B3E), fontSize: isMobile ? 13 : 15, height: 1.5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildServiceItem(IconData icon, String title) {
+    return HoverScaleWidget(
+      child: Container(
+        width: 170,
+        height: 150,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade100),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: AppColors.appColorOrange, size: 38),
+            const SizedBox(height: 16),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF0D1B3E),
+                height: 1.4,
+              ),
             ),
           ],
         ),
