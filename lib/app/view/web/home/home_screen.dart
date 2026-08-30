@@ -193,7 +193,7 @@ class WebHomeScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 16, color: Colors.black, height: 1.6),
                     ),
                     const SizedBox(height: 60),
-                    _buildPartnerContactForm(context),
+                    _buildPartnerContactForm(context, controller),
                   ],
                 ),
               ),
@@ -592,7 +592,7 @@ class WebHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPartnerContactForm(BuildContext context) {
+  Widget _buildPartnerContactForm(BuildContext context, HomeScreenController controller) {
     bool isMobile = ResponsiveHelper.isMobile(context);
     return Container(
       constraints: const BoxConstraints(maxWidth: 1200),
@@ -607,7 +607,7 @@ class WebHomeScreen extends StatelessWidget {
               children: [
                 _buildPartnerContactInfo(),
                 const SizedBox(height: 60),
-                _buildPartnerFormFields(),
+                _buildPartnerFormFields(controller),
               ],
             )
           : Row(
@@ -615,7 +615,7 @@ class WebHomeScreen extends StatelessWidget {
               children: [
                 Expanded(flex: 2, child: _buildPartnerContactInfo()),
                 const SizedBox(width: 80),
-                Expanded(flex: 3, child: _buildPartnerFormFields()),
+                Expanded(flex: 3, child: _buildPartnerFormFields(controller)),
               ],
             ),
     );
@@ -766,23 +766,27 @@ class WebHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPartnerFormFields() {
+  Widget _buildPartnerFormFields(HomeScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildPartnerFormField(number: "01", label: "YOUR NAME", hint: "Type here"),
-        _buildPartnerFormField(number: "02", label: "EMAIL", hint: "you@company.com"),
-        _buildPartnerFormField(number: "03", label: "CONTACT NUMBER", hint: "enter your number with country code"),
-        _buildPartnerFormField(number: "04", label: "OCCUPATION", hint: "Optional"),
+        _buildPartnerFormField(number: "01", label: "YOUR NAME", hint: "Type here", controller: controller.nameController),
+        _buildPartnerFormField(number: "02", label: "EMAIL", hint: "you@company.com", controller: controller.emailController),
+        _buildPartnerFormField(number: "03", label: "CONTACT NUMBER", hint: "enter your number with country code", controller: controller.phoneController),
+        _buildPartnerFormField(number: "04", label: "OCCUPATION", hint: "Optional", controller: controller.occupationController),
         // _buildPartnerFormField(number: "05", label: "BUDGET RANGE", hint: "Select a range", isDropdown: true),
         // _buildPartnerFormField(number: "06", label: "TELL US ABOUT THE PROJECT", hint: "One paragraph is plenty — we'll ask the rest.", isMultiline: true),
-        CustomButton(
-          text: "Become Partner",
-          onPressed: () {},
-          width: Get.width * 0.11,
-          buttonHeight: 30,
-          radius: 8,
-        ),
+        controller.isSubmitting 
+          ? const Center(child: CircularProgressIndicator(color: AppColors.appColorOrange))
+          : CustomButton(
+              text: "Become Partner",
+              onPressed: () {
+                controller.submitPartnerForm();
+              },
+              width: Get.width * 0.11,
+              buttonHeight: 30,
+              radius: 8,
+            ),
       ],
     );
   }
@@ -791,6 +795,7 @@ class WebHomeScreen extends StatelessWidget {
     required String number,
     required String label,
     required String hint,
+    required TextEditingController controller,
     bool isDropdown = false,
     bool isMultiline = false,
   }) {
@@ -813,6 +818,7 @@ class WebHomeScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
+                  controller: controller,
                   maxLines: isMultiline ? null : 1,
                   style: const TextStyle(fontSize: 18, color: Color(0xFF0D1B3E)),
                   decoration: InputDecoration(
