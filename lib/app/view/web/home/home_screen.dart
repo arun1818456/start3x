@@ -60,6 +60,7 @@ class WebHomeScreen extends StatelessWidget {
                             price: '30,000',
                             appointments: '15',
                             isPopular: false,
+                            controller: controller
                           ),
                           const SizedBox(height: 32),
                           _buildPricingCard(
@@ -73,6 +74,7 @@ class WebHomeScreen extends StatelessWidget {
                               '15 Included in the first ₹30,000',
                               '+ 30 Additional at ₹1,000 each',
                             ],
+                              controller: controller
                           ),
                           const SizedBox(height: 32),
                           _buildPricingCard(
@@ -86,6 +88,7 @@ class WebHomeScreen extends StatelessWidget {
                               '15 Included in the first ₹30,000',
                               '+ 60 Additional at ₹1,000 each',
                             ],
+                              controller: controller
                           ),
                         ],
                       )
@@ -103,6 +106,7 @@ class WebHomeScreen extends StatelessWidget {
                               price: '30,000',
                               appointments: '15',
                               isPopular: false,
+                                controller: controller
                             ),
                             const SizedBox(width: 24),
                             _buildPricingCard(
@@ -112,6 +116,7 @@ class WebHomeScreen extends StatelessWidget {
                               price: '60,000',
                               appointments: '45',
                               isPopular: true,
+                              controller: controller,
                               breakdown: [
                                 '15 Included in the first ₹30,000',
                                 '+ 30 Additional at ₹1,000 each',
@@ -125,6 +130,7 @@ class WebHomeScreen extends StatelessWidget {
                               price: '90,000',
                               appointments: '75',
                               isPopular: false,
+                              controller: controller,
                               breakdown: [
                                 '15 Included in the first ₹30,000',
                                 '+ 60 Additional at ₹1,000 each',
@@ -449,6 +455,7 @@ class WebHomeScreen extends StatelessWidget {
     required String appointments,
     required bool isPopular,
     List<String>? breakdown,
+    required HomeScreenController controller,
   }) {
     return HoverScaleWidget(
       scale: 1.03,
@@ -555,6 +562,8 @@ class WebHomeScreen extends StatelessWidget {
                   CommonDialogs.showScalePlanDialog(
                     Get.context!,
                     planName: plan.toLowerCase().capitalizeFirst!,
+                    price: price,
+                    controller: controller,
                   );
                 },
                 width: double.infinity,
@@ -785,6 +794,8 @@ class WebHomeScreen extends StatelessWidget {
               },
               width: Get.width * 0.11,
               buttonHeight: 30,
+
+
               radius: 8,
             ),
       ],

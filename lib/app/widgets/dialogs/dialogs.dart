@@ -562,7 +562,12 @@ class CommonDialogs with BaseClass {
       },
     );
   }
-  static void showScalePlanDialog(BuildContext context, {required String planName}) {
+  static void showScalePlanDialog(
+    BuildContext context, {
+    required String planName,
+    required String price,
+    required HomeScreenController controller,
+  }) {
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -580,83 +585,143 @@ class CommonDialogs with BaseClass {
           child: Material(
             color: Colors.transparent,
             child: Container(
-              width: 400,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              width: 420,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
               decoration: BoxDecoration(
                 color: const Color(0xFFF0F0F0),
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "$planName plan",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Color(0xFF555555),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  _buildDialogTextField(hint: "Legal Business Name (Required)"),
-                  const SizedBox(height: 16),
-                  _buildDialogTextField(hint: "Your Name"),
-                  const SizedBox(height: 16),
-                  _buildDialogTextField(
-                    hint: "+91",
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(AppImages.flag, width: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  _buildDialogTextField(
-                    hint: "When would you like to start?",
-                    suffixIcon: Row(
-                      mainAxisSize: MainAxisSize.min,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(height: 24, width: 1, color: Colors.grey.shade400),
-                        const SizedBox(width: 12),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 12),
-                          child: Icon(Icons.calendar_month_outlined, color: Colors.black),
+                        Text(
+                          "$planName plan (₹$price)",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Color(0xFF555555),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: const Icon(Icons.close, color: Colors.grey),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  CustomPaint(
-                    painter: DashedRectPainter(color: Colors.black45, gap: 4),
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "GST Document Attachment (PDF,\nPNG, or JPEG format only).",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF444444),
+                    const SizedBox(height: 20),
+                    _buildDialogTextField(
+                      textController: controller.planBusinessController,
+                      hint: "Legal Business Name (Required)",
+                    ),
+                    const SizedBox(height: 14),
+                    _buildDialogTextField(
+                      textController: controller.planNameController,
+                      hint: "Your Name (Required)",
+                    ),
+                    const SizedBox(height: 14),
+                    _buildDialogTextField(
+                      textController: controller.planPhoneController,
+                      hint: "Contact Number (Required)",
+                      keyboardType: TextInputType.phone,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(AppImages.flag, width: 24),
+                            const SizedBox(width: 4),
+                            const Text(
+                              "+91 ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Color(0xFF0D1B3E),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  CustomButton(
-                    text: "Start Now",
-                    onPressed: () => Get.back(),
-                    width: 200,
-                    buttonHeight: 45,
-                    radius: 12,
-                    color: AppColors.appColorOrange,
-                  ),
-                ],
+                    const SizedBox(height: 14),
+                    _buildDialogTextField(
+                      textController: controller.planDateController,
+                      hint: "When would you like to start? (Required)",
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                        );
+                        if (pickedDate != null) {
+                          controller.planDateController.text =
+                              "${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year}";
+                        }
+                      },
+                      suffixIcon: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(height: 24, width: 1, color: Colors.grey.shade400),
+                          const SizedBox(width: 12),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 12),
+                            child: Icon(Icons.calendar_month_outlined, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    _buildDialogTextField(
+                      textController: controller.planAddressController,
+                      hint: "Business Address (Optional)",
+                    ),
+                    const SizedBox(height: 14),
+                    _buildDialogTextField(
+                      textController: controller.planGstController,
+                      hint: "GST Number / Info (Optional)",
+                    ),
+                    const SizedBox(height: 20),
+                    CustomPaint(
+                      painter: DashedRectPainter(color: Colors.black45, gap: 4),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "GST Document Attachment (PDF,\nPNG, or JPEG format only).",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF444444),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    GetBuilder<HomeScreenController>(
+                      builder: (cnt) {
+                        return cnt.isSubmittingPlan
+                            ? const CircularProgressIndicator(color: AppColors.appColorOrange)
+                            : CustomButton(
+                                text: "Start Now",
+                                onPressed: () {
+                                  cnt.submitScalePlanForm(planAmount: price);
+                                },
+                                width: 200,
+                                buttonHeight: 45,
+                                radius: 12,
+                                color: AppColors.appColorOrange,
+                              );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -665,17 +730,30 @@ class CommonDialogs with BaseClass {
     );
   }
 
-  static Widget _buildDialogTextField({required String hint, Widget? prefixIcon, Widget? suffixIcon}) {
+  static Widget _buildDialogTextField({
+    required String hint,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+    required TextEditingController textController,
+    bool readOnly = false,
+    VoidCallback? onTap,
+    TextInputType? keyboardType,
+  }) {
     return MyTextFieldForm(
+      controller: textController,
       hintText: hint,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
+      readOnly: readOnly,
+      onTap: onTap,
+      keyboardType: keyboardType,
       fillColor: const Color(0xFFDCDCDC),
       borderColor: Colors.transparent,
       formRadius: 12,
       hintStyle: const TextStyle(color: Color(0xFF666666), fontSize: 14),
     );
   }
+
 }
 
 class DashedRectPainter extends CustomPainter {
