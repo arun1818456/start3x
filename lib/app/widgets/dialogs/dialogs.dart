@@ -580,7 +580,7 @@ class CommonDialogs with BaseClass {
           child: Opacity(opacity: a1.value, child: child),
         );
       },
-      pageBuilder: (context, animation, secondaryAnimation) {
+      pageBuilder: (context1, animation, secondaryAnimation) {
         return Center(
           child: Material(
             color: Colors.transparent,
@@ -678,31 +678,14 @@ class CommonDialogs with BaseClass {
                     const SizedBox(height: 14),
                     _buildDialogTextField(
                       textController: controller.planAddressController,
-                      hint: "Business Address (Optional)",
+                      hint: "Business Address",
                     ),
                     const SizedBox(height: 14),
                     _buildDialogTextField(
                       textController: controller.planGstController,
-                      hint: "GST Number / Info (Optional)",
+                      hint: "GST Number",
                     ),
-                    const SizedBox(height: 20),
-                    CustomPaint(
-                      painter: DashedRectPainter(color: Colors.black45, gap: 4),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "GST Document Attachment (PDF,\nPNG, or JPEG format only).",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF444444),
-                          ),
-                        ),
-                      ),
-                    ),
+
                     const SizedBox(height: 24),
                     GetBuilder<HomeScreenController>(
                       builder: (cnt) {

@@ -30,15 +30,9 @@ mixin BaseClass {
         ? Colors.orangeAccent
         : Colors.redAccent;
 
-    final icon = success
-        ? Icons.emoji_events_rounded
-        : alert
-        ? Icons.warning_amber_rounded
-        : Icons.cancel_rounded;
-
     Get.showSnackbar(
       GetSnackBar(
-        maxWidth: Get.width * 0.5,
+        maxWidth: Get.width * 0.2,
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.transparent,
         margin: const EdgeInsets.only(top: 18, left: 16, right: 16),
@@ -48,7 +42,7 @@ mixin BaseClass {
         borderRadius: 18,
 
         messageText: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xff2B1B0F), Color(0xff5A3720)],
@@ -68,50 +62,29 @@ mixin BaseClass {
               ),
             ],
           ),
-          child: Row(
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 46,
-                height: 46,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [Color(0xffFFD54F), Color(0xffFFB300)],
-                  ),
+              Text(
+                success
+                    ? "Success!"
+                    : alert
+                    ? "WARNING!"
+                    : "FAILED!",
+                style: const TextStyle(
+                  color: Color(0xffFFE082),
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
                 ),
-                child: Icon(icon, color: Colors.white, size: 26),
               ),
-
-              const SizedBox(width: 14),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      success
-                          ? "VICTORY!"
-                          : alert
-                          ? "WARNING!"
-                          : "FAILED!",
-                      style: const TextStyle(
-                        color: Color(0xffFFE082),
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      message,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+              Text(
+                message,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],

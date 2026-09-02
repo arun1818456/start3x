@@ -35,7 +35,7 @@ class WebHomeScreen extends StatelessWidget {
                         _buildCardSection(context),
                       ],
                     ),
-                    callBackForm(),
+                    callBackForm(controller),
                   ],
                 ),
                 Stack(
@@ -783,9 +783,7 @@ class WebHomeScreen extends StatelessWidget {
         _buildPartnerFormField(number: "02", label: "EMAIL", hint: "you@company.com", controller: controller.emailController),
         _buildPartnerFormField(number: "03", label: "CONTACT NUMBER", hint: "enter your number with country code", controller: controller.phoneController),
         _buildPartnerFormField(number: "04", label: "OCCUPATION", hint: "Optional", controller: controller.occupationController),
-        // _buildPartnerFormField(number: "05", label: "BUDGET RANGE", hint: "Select a range", isDropdown: true),
-        // _buildPartnerFormField(number: "06", label: "TELL US ABOUT THE PROJECT", hint: "One paragraph is plenty — we'll ask the rest.", isMultiline: true),
-        controller.isSubmitting 
+         controller.isSubmitting
           ? const Center(child: CircularProgressIndicator(color: AppColors.appColorOrange))
           : CustomButton(
               text: "Become Partner",
@@ -885,13 +883,13 @@ class WebHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget callBackForm() {
+  Widget callBackForm(HomeScreenController controller) {
     return Align(
       alignment: Alignment.topRight,
       child: Container(
         width: Get.width / 3 - 50,
-        padding: EdgeInsets.symmetric(horizontal: 45, vertical: 35),
-        margin: EdgeInsets.only(top: 40, right: 100),
+        padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 35),
+        margin: const EdgeInsets.only(top: 40, right: 100),
         height: 500,
         decoration: BoxDecoration(
           color: AppColors.greyColor,
@@ -900,7 +898,7 @@ class WebHomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Set a Callback",
               style: TextStyle(
                 fontSize: 20,
@@ -909,13 +907,21 @@ class WebHomeScreen extends StatelessWidget {
                 fontFamily: AppFonts.inter,
               ),
             ),
-            SizedBox(height: 50),
-            MyTextFieldForm(hintText: "Legal Business Name (Required)"),
-            SizedBox(height: 22),
-            MyTextFieldForm(hintText: "Your Name"),
-            SizedBox(height: 22),
+            const SizedBox(height: 50),
             MyTextFieldForm(
-              hintText: "+91 ",
+              controller: controller.callBusinessController,
+              hintText: "Legal Business Name (Required)",
+            ),
+            const SizedBox(height: 22),
+            MyTextFieldForm(
+              controller: controller.callNameController,
+              hintText: "Your Name (Required)",
+            ),
+            const SizedBox(height: 22),
+            MyTextFieldForm(
+              controller: controller.callPhoneController,
+              hintText: "+91 Phone Number (Required)",
+              keyboardType: TextInputType.phone,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
                 child: Image.asset(
@@ -926,14 +932,18 @@ class WebHomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 45),
-            CustomButton(
-              text: "Book Your Free Call",
-              onPressed: () {},
-              width: Get.width * 0.11,
-              buttonHeight: 30,
-              radius: 8,
-            ),
+            const SizedBox(height: 45),
+            controller.isSubmittingCallback
+                ? const CircularProgressIndicator(color: AppColors.appColorOrange)
+                : CustomButton(
+                    text: "Book Your Free Call",
+                    onPressed: () {
+                      controller.submitCallbackForm();
+                    },
+                    width: Get.width * 0.11,
+                    buttonHeight: 30,
+                    radius: 8,
+                  ),
           ],
         ),
       ),
@@ -967,7 +977,8 @@ class WebHomeScreen extends StatelessWidget {
             children: [
               _buildDashCard(
                 onTap: (){
-                  Get.toNamed(AppRoutes.profileScreen);
+
+                  // Get.toNamed(AppRoutes.profileScreen);
                 },
                 icon: AppImages.resume,
                 description:
